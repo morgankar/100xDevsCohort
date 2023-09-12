@@ -3,9 +3,11 @@ const app = express();
 const port = 3000;
 
 function middleware1(req,res,next){
-    console.log("this message from middleware" + req.headers.name);
+    console.log("this message from middleware " + req.headers.name);
     next();
 }
+
+app.use(middleware1)
 
 function sayName(name){
     return `My name is ${name} `;
@@ -17,7 +19,7 @@ function sayAge(age){
 
 
 function firstRequest(req,res){
-    var name = req.query.name;
+    var name = req.headers.name;
     var saidName = sayName(name);
 
     res.send(saidName)
