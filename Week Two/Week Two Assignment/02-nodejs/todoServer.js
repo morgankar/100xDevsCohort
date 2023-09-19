@@ -69,7 +69,7 @@ app.post("/todos", (req,res) => {
   let newTodo = {
     id: Math.floor(Math.random()*100),
     title: req.body.title,
-    description: req.body.desc
+    description: req.body.description
   };
   todos.push(newTodo);
   res.status(201).json(newTodo);
@@ -77,22 +77,23 @@ app.post("/todos", (req,res) => {
 
 //4
 app.put("/todos/:id", (req,res) => {
- let itemIndex = findIndex(todos, parseInt(req.param.id));
+ let itemIndex = findIndex(todos, parseInt(req.params.id));
  if(itemIndex>0){
   res.status(404).json();
  }else {
   todos[itemIndex].title = req.body.title;
-  todos[itemIndex].description = req.body.desc;
+  todos[itemIndex].description = req.body.description;
   res.status(201).json(todos[itemIndex])
  }
 })
 
 //5 
 app.delete("/todos/:id", (req,res) => {
-  if(!todos[parseInt(req.param.id)]){
+  if(!todos[parseInt(req.params.id)]){
     res.status(404).json()
   } else{
-    delete todos[parseInt(req.param.id)]
+    var index = todos.indexOf(req.params.id);
+    todos.splice(index,1);
   }
   
 })
@@ -101,4 +102,7 @@ app.delete("/todos/:id", (req,res) => {
 
 
 
+
 module.exports = app;
+
+app.listen(3000)
