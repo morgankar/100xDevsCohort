@@ -78,31 +78,52 @@ app.post("/todos", (req,res) => {
 //4
 app.put("/todos/:id", (req,res) => {
  let itemIndex = findIndex(todos, parseInt(req.params.id));
- if(itemIndex>0){
+ if(itemIndex >= 0){
   res.status(404).json();
  }else {
   todos[itemIndex].title = req.body.title;
   todos[itemIndex].description = req.body.description;
-  res.status(201).json(todos[itemIndex])
+  res.status(200).json(todos[itemIndex])
  }
 })
 
+function findIndex(arr, id){
+  for(let i= 0; i<arr.length; i++){
+    if(arr[i].id === id){
+      return i;
+    }
+  }
+  return -1
+}
+
+function removeAtIndex(arr, index){
+  let newTodos = [];
+  console.log(newTodos)
+  for(let i =0; i< arr.length;i++){
+    if(i !== index){
+      newTodos.push(arr[i]);
+    }
+   
+  }
+  return newTodos;
+}
+
 //5 
 app.delete("/todos/:id", (req,res) => {
-  if(!todos[parseInt(req.params.id)]){
-    res.status(404).json()
-  } else{
-    var index = todos.indexOf(req.params.id);
-    todos.splice(index,1);
+  var todoIndex = findIndex(todos, parseInt(req.params.id));
+  if(todoIndex === -1){
+    res.status(404).send();
+  } else {
+    todos = removeAtIndex(todos, todoIndex);
+    res.status(200).send();
   }
   
-})
+});
 
-
-
-
-
+app.use((req, res, next) => {
+  res.status(404).send();
+});
 
 module.exports = app;
 
-app.listen(3000)
+app.listen(3000);
