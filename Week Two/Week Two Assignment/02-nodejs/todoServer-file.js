@@ -1,8 +1,9 @@
 //Todo Server that can store items on its backend
 const express = require("express");
 const app = express();
-const bodyParser = require("body parser");
+const bodyParser = require("body-parser");
 const port = 5000;
+const fs = require("fs");
 app.use(bodyParser.json());
 
 
@@ -12,7 +13,7 @@ app.use(bodyParser.json());
 app.get("/todos", (req,res) => {
     fs.readFile("todo.json", "utf8", (err,data) =>{
         if(err) throw err;
-        res.json(JSON.parse(data));
+        res.json(JSON.parse(data));   //Json.parse is to convert whatever data/string into json format
     })
 })
 
@@ -24,7 +25,17 @@ app.post("/todos", (req,res)=> {
         title: req.body.title,
         description: req.body.description
     };
+    fs.readFile("todos.json", "utf8", (err,data) => {
+        if(err) throw err;
+        const todo = JSON.parse(data);
+        todos.push(newTodo);
+        fs.writeFile("todos.json", JSON.stringify(todos));
+    })
 })
+
+
+//JSON.parse converts any data to object data notation 
+//JSON.stringify converts object to JSON string 
 
 
 
@@ -32,4 +43,4 @@ app.post("/todos", (req,res)=> {
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
-  })
+  });
