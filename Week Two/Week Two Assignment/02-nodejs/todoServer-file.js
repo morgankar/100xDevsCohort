@@ -29,7 +29,10 @@ app.post("/todos", (req,res)=> {
         if(err) throw err;
         const todo = JSON.parse(data);
         todos.push(newTodo);
-        fs.writeFile("todos.json", JSON.stringify(todos));
+        fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+            if(err) throw err;
+            res.status(201).json(newTodo);
+        });
     })
 })
 
