@@ -15,26 +15,30 @@ app.get("/todos", (req,res) => {
         if(err) throw err;
         res.json(JSON.parse(data));   //Json.parse is to convert whatever data/string into json format
     })
+
 })
 
 
 //To post Todo list
-app.post("/todos", (req,res)=> {
-    const newTodo = {
-        id: Math.floor(Math.random() * 100000) , //generates unique id
-        title: req.body.title,
-        description: req.body.description
-    };
-    fs.readFile("todos.json", "utf8", (err,data) => {
-        if(err) throw err;
-        const todo = JSON.parse(data);
-        todos.push(newTodo);
-        fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+
+function onPress(){
+    app.post("/todos", (req,res)=> {
+        const newTodo = {
+            id: Math.floor(Math.random() * 100000) , //generates unique id
+            title: req.body.title,
+            description: req.body.description
+        };
+        fs.readFile("todos.json", "utf8", (err,data) => {
             if(err) throw err;
-            res.status(201).json(newTodo);
-        });
+            const todo = JSON.parse(data);
+            todos.push(newTodo);
+            fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+                if(err) throw err;
+                res.status(201).json(newTodo);
+            });
+        })
     })
-})
+}
 
 
 //JSON.parse converts any data to object data notation 
