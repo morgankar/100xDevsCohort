@@ -15,16 +15,12 @@ function App() {
       description: "Eat at 6pm",
       id:2
     }]);
-
+ 
    return (
     <>
     <div>
       {todos.map((todo) => {
-        return <div>
-        {todo.id}
-        {todo.title}
-        {todo.description}
-        </div>
+        return <Todo title ={todo.title} description ={todo.description}></Todo>
       })}
     </div>
     </>
@@ -32,6 +28,14 @@ function App() {
    
 }
 
+//Component 2
+function Todo(props){
+  return <div>
+    {props.id}
+    {props.title}
+    {props.description}
+  </div>
+}
 
 
 export default App
