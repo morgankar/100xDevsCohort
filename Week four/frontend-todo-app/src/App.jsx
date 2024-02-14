@@ -12,7 +12,7 @@ function App() {
     },
     {
       title: "Have Dinner",
-      description: "Eat at 6pm",
+      description: "Eat at 5pm",
       id:2
     }]);
  
